@@ -8,6 +8,9 @@ class State():
         else:
             self.board = board
 
+    def key(self):
+        return (self.board.board_fen(), self.board.turn, self.board.castling_rights, self.board.ep_square)
+
     def serialize(self):
         assert self.board.is_valid()
 
@@ -38,7 +41,9 @@ class State():
         if self.board.ep_square is not None:
             assert bstate[self.board.ep_square] == 0
             bstate[self.board.ep_square] = 8
+
         bstate = bstate.reshape(8,8)
+
         state = np.zeros((5,8,8), np.uint8)
 
         state[0] = (bstate>>3)&1
@@ -48,14 +53,10 @@ class State():
 
         state[4] = (self.board.turn*1.0)
 
-        return state.flatten()
+        return state
 
     def edges(self):
         return list(self.board.generate_legal_moves())
-
-    def value(self):
-        #ToDO: add neural net here
-        return 0
 
 if __name__ == "__main__":
     s = State()
