@@ -81,6 +81,7 @@ model.cuda()
 model.train()
 
 for epoch in range(100):
+    all_loss = 0
     for batch_idx, (data, target) in enumerate(train_loader):
         target = target.unsqueeze(-1)
         data, target = data.to(device), target.to(device)
@@ -97,4 +98,6 @@ for epoch in range(100):
         tloss.backward()
         optimizer.step()
 
-        print("%3d,%3d: %f" %(epoch, batch_idx, tloss.data))
+        all_loss += tloss.item()
+
+    print("%3d,%f" %(epoch, all_loss))
