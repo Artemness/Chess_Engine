@@ -12,12 +12,14 @@ def database(num_samples=None):
         while 1:
             try:
                game = chess.pgn.read_game(pgn)
-            except Exception:
-                break
-            gamenum += 1
+            except:
+                continue
+            if game is None:
+                continue
             res = game.headers['Result']
             if res not in values:
                 continue
+            gamenum += 1
             value = values[res]
             board = game.board()
             for i, move in enumerate(game.mainline_moves()):

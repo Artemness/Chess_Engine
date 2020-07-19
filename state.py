@@ -1,5 +1,6 @@
 import chess
 import numpy as np
+import torch
 
 class State():
     def __init__(self, board=None):
@@ -54,6 +55,7 @@ class State():
         state[4] = (self.board.turn*1.0)
 
         return state
+
 
     def edges(self):
         return list(self.board.generate_legal_moves())
